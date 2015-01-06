@@ -157,3 +157,38 @@ $(function(){
 	  return chart;
 	});
 });
+
+// echarts
+$(function(){
+	var option = {
+	    tooltip : {
+	        trigger: 'item',
+	        formatter: "{b}<br/>{c} ({d}%)"
+	    },
+	    legend: {
+	        orient : 'vertical',
+	        x : 300,
+	        data:data.map(function(n){return n[0];})
+	    },
+	    series : [
+	        {	            
+	            type:'pie',
+	            radius : '80%',
+	            center: ['30%', '50%'],
+	            data: data.map(function(n){return {value:n[1], name:n[0]};}),
+	            itemStyle: {
+			    	normal: {
+			    		label: {show: true, position: "inner", formatter: "{d}%"},
+			    		labelLine: {show: false}
+			    	},
+			    	emphasis: {
+			    		label: {show: true, position: "inner", formatter: "{d}%"},
+			    		labelLine: {show: false}
+
+			    	}
+			    }
+	        }
+	    ],
+	};
+	echarts.init(document.getElementById('echarts')).setOption(option);
+});
