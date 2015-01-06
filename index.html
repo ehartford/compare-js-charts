@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/c3.min.css">
+        <link rel="stylesheet" href="css/jquery.jqplot.min.css">
+        <link rel="stylesheet" href="css/nv.d3.min.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Flot</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div id="flot" class="chart"></div>
+                    </div>
+                    <div class="col-md-7">
+                        <pre><code>var dataFlot = 
+    data.map(function(n){return {&quot;label&quot;: n[0], &quot;data&quot;: n[1]};});
+
+var labelFormatter = function(label, series) {
+    return &quot;&lt;div style='font-size:8pt; text-align:center; padding:2px; color:white;'&gt;&quot; +Math.round(series.percent) + &quot;%&lt;/div&gt;&quot;;
+}
+$.plot('#flot', dataFlot, {
+    series: {
+        pie: {
+            show: true,
+            radius: .8,
+            label: {
+                show: true,
+                radius: 5/8,
+                formatter: labelFormatter,
+                background: {
+                    opacity: 0.0
+                }
+            }
+        }
+    },
+    legend: {
+        show: true,
+        position: &quot;ne&quot;
+    },
+    grid: {
+        hoverable: true,
+        clickable: true
+    }
+});</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">C3.js</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div id="c3js" class="chart"></div>
+                    </div>
+                    <div class="col-md-7">
+                        <pre><code>var chart = c3.generate({
+    bindto: '#c3js',
+    legend: {
+                position: 'right'
+            },
+    data: {         
+        columns: data,
+        type : 'pie',
+        onclick: function (d, i) { console.log("onclick", d, i); },
+        onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+        onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+    }
+});</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Chart.js</h3>
+            </div>        
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <canvas id="chartjs" width="280" height="300" class="chart" ></canvas>
+                    </div>
+                    <div class="col-md-7">
+                        <pre><code>var getRandomColor = function() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i &lt; 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+};
+var opts = {
+    segmentShowStroke : true,
+    segmentStrokeColor : &quot;#fff&quot;,
+    segmentStrokeWidth : 2,
+    percentageInnerCutout : 0, 
+    animationSteps : 100,
+    animationEasing : &quot;easeOutBounce&quot;,
+    animateRotate : true,
+    animateScale : false,
+    legend : {
+        position: &quot;right&quot;,
+        labels: {
+            template: &quot;#= text # (#= value #%)&quot;
+        }
+    },
+    legendTemplate : &quot;&lt;ul class=\&quot;&lt;%=name.toLowerCase()%&gt;-legend\&quot;&gt;&lt;% for (var i=0; i&lt;segments.length; i++){%&gt;&lt;li&gt;&lt;span style=\&quot;background-color:&lt;%=segments[i].fillColor%&gt;\&quot;&gt;&lt;/span&gt;&lt;%if(segments[i].label){%&gt;&lt;%=segments[i].label%&gt;&lt;%}%&gt;&lt;/li&gt;&lt;%}%&gt;&lt;/ul&gt;&quot;
+};
+var dataChartJS = data.map(function(n){
+    return {&quot;value&quot;: n[1], &quot;label&quot;: n[0], color: getRandomColor(), labelColor: &quot;white&quot;};
+});
+var myPieChart = new Chart(document.getElementById(&quot;chartjs&quot;).getContext(&quot;2d&quot;)).Pie(dataChartJS,opts);</code></pre>
+                    </div>
+                </div>
+            </div>            
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">jqPlot</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div id="jqplot" class="chart"></div>
+                    </div>
+                    <div class="col-md-7">
+                        <pre><code>var plot1 = jQuery.jqplot ('jqplot', [data], 
+{ 
+    seriesDefaults: {        
+        renderer: jQuery.jqplot.PieRenderer, 
+        rendererOptions: {
+            showDataLabels: true
+        }
+    }, 
+    legend: { show:true, location: 'e' }
+});</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">gRaphaël</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div id="graphael" class="chart"></div>
+                    </div>
+                    <div class="col-md-7">
+                        <pre><code>var r = Raphael(&quot;graphael&quot;),
+    pie = r.piechart(
+        155, 155, 120, 
+        data.map(function(n){return n[1];}), 
+        { legend: data.map(function(n){return n[0];}), 
+        legendpos: &quot;east&quot;
+    });
+
+pie.hover(function () {
+    this.sector.stop();
+    this.sector.scale(1.1, 1.1, this.cx, this.cy);
+
+    if (this.label) {
+        this.label[0].stop();
+        this.label[0].attr({ r: 7.5 });
+        this.label[1].attr({ &quot;font-weight&quot;: 800 });
+    }
+}, function () {
+    this.sector.animate({ transform: 's1 1 ' + this.cx + ' ' + this.cy }, 500, &quot;bounce&quot;);
+
+    if (this.label) {
+        this.label[0].animate({ r: 5 }, 500, &quot;bounce&quot;);
+        this.label[1].attr({ &quot;font-weight&quot;: 400 });
+    }
+});</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">NVD3.js</h3>
+            </div>
+            <div id="nvd3" class="panel-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <svg class="chart"></svg>
+                    </div>
+                    <div class="col-md-7">
+                        <pre><code>nv.addGraph(function() {
+  var chart = nv.models.pieChart()
+      .x(function(d) { return d.label })
+      .y(function(d) { return d.value })
+      .showLabels(false)
+      .showLegend(true)
+
+    d3.select(&quot;#nvd3 svg&quot;)
+        .datum(data.map(function(n){return {&quot;label&quot;: n[0], &quot;value&quot;: n[1]};}))
+        .transition().duration(350)
+        .call(chart);
+
+  return chart;
+});</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/vendor/jquery-1.10.2.min.js"></script>
+        <script src="js/vendor/bootstrap.min.js"></script>
+        <script src="js/vendor/raphael-min.js"></script>
+        <script src="js/vendor/d3.min.js"></script>
+        <script src="js/vendor/jquery.flot.min.js"></script>
+        <script src="js/vendor/jquery.flot.pie.min.js"></script>
+        <script src="js/vendor/c3.min.js"></script>
+        <script src="js/vendor/Chart.min.js"></script>
+        <script src="js/vendor/jquery.jqplot.min.js"></script>
+        <script src="js/vendor/jqplot.pieRenderer.min.js"></script>
+        <script src="js/vendor/g.raphael-min.js"></script>
+        <script src="js/vendor/g.pie-min.js"></script>
+        <script src="js/vendor/nv.d3.min.js"></script>
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>
